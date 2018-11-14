@@ -1,9 +1,11 @@
-package br.com.institutoatlantico.testedesenvolvedores.repository;
+package br.com.institutoatlantico.repository;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import br.com.institutoatlantico.testedesenvolvedores.model.Usuario;
+import br.com.institutoatlantico.security.Usuario;
 
 public interface UsuarioRepository extends PagingAndSortingRepository<Usuario, Long> {
+	
+	Usuario findByLogin(String login);
 
 }

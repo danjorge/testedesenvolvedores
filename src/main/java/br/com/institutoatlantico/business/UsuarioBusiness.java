@@ -1,14 +1,17 @@
-package br.com.institutoatlantico.testedesenvolvedores.business;
+package br.com.institutoatlantico.business;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
-import br.com.institutoatlantico.testedesenvolvedores.model.Usuario;
-import br.com.institutoatlantico.testedesenvolvedores.repository.UsuarioRepository;
+import br.com.institutoatlantico.repository.UsuarioRepository;
+import br.com.institutoatlantico.security.Usuario;
 
 @Service
 public class UsuarioBusiness {
@@ -32,9 +35,15 @@ public class UsuarioBusiness {
 	public Usuario save(Usuario usuario) throws Exception {
 		if (usuario.getId() != null) {
 			Usuario usr = findById(usuario.getId());
-			if(usr.getPassword() != usuario.getPassword() && !usuario.isAdmin()) {
+			Usuario user = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if(StringUtils.hasText(usuario.getPassword()) && usuario.getPassword() != usr.getPassword() && !user.hasRole("ADMIN")) {
 				throw new Exception("usuario não tem permissão para atualizar senha");
 			}
+		}
+		
+		if(StringUtils.hasText(usuario.getPassword())) {
+			BCryptPasswordEncoder enconder = new BCryptPasswordEncoder();
+			usuario.setPassword(enconder.encode(usuario.getPassword()));
 		}
 		return repository.save(usuario);
 	}

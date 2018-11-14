@@ -1,4 +1,4 @@
-package br.com.institutoatlantico.testedesenvolvedores.component;
+package br.com.institutoatlantico.component;
 
 import java.io.Serializable;
 

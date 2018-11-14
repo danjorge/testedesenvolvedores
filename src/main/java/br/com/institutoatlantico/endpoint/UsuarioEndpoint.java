@@ -1,4 +1,4 @@
-package br.com.institutoatlantico.testedesenvolvedores.endpoint;
+package br.com.institutoatlantico.endpoint;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.institutoatlantico.testedesenvolvedores.business.UsuarioBusiness;
-import br.com.institutoatlantico.testedesenvolvedores.model.Usuario;
+import br.com.institutoatlantico.business.UsuarioBusiness;
+import br.com.institutoatlantico.security.Usuario;
 
 @RestController
 @RequestMapping(value = "/usuario")
